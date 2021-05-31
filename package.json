@@ -1,0 +1,19 @@
+{
+  "name": "pico-pg",
+  "version": "1.0.0",
+  "description": "A light-weight javascript-based ORM that treats Postgres like a noSQL database.",
+  "main": "pico-pg.js",
+  "scripts": {
+    "dev": "pico-check --watch ./tests",
+    "test": "pico-check ./tests"
+  },
+  "keywords": ["postgres", "document", "nosql", "pg"],
+  "author": "stolksdorf <scott.tolksdorf@gmail.com> (https://stolksdorf.dev/)",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.6.0"
+  },
+  "devDependencies": {
+    "pico-check": "^2.1.3"
+  }
+}
