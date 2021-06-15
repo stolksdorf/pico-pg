@@ -64,6 +64,9 @@ Sets up a connection to Postgres. Passes `pg_opts` to the [`pg` library ](https:
 #### `ppg.disconnect()`
 Closes connection with Postgres
 
+#### `ppg.isConnected()`
+Returns `true/false` if connected to a postgres database
+
 #### `ppg.query(sqlString)`
 Executes the given `sqlQuery` on the Postgres connection
 
@@ -79,7 +82,10 @@ Returns an array of records that match the given query. Queries are objects that
 `opts` object allows you to specify a `limit` and `offset`, as well as a `sort`
 
 ```js
-await tbl.all({
+await tbl.find({
+		user : 'scott'
+	},
+	{
 	offset : 5, // skip the first 5
 	limit : 10, //only return 10 records,
 	sort : {
@@ -103,7 +109,6 @@ Adds and returns a new record with the given data.
 
 #### `tbl.update(data)`
 Updates a given record (by the `id` within the `data`) with the new `data`. `updated_at` coloumn will be updated automatically.
-
 
 #### `tbl.remove(query)`
 Removes records from the table that match the `query` obj. Returns the number of records removed.

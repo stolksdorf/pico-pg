@@ -2,8 +2,15 @@ const ppg = require('../pico-pg.js');
 
 
 module.exports = {
+	not_connected : (t)=>{
+		t.is(ppg.isConnected(), false);
+	},
 	setup : async (t)=>{
 		await ppg.connect(global.ppg_config)
+	},
+
+	connected : (t)=>{
+		t.is(ppg.isConnected(), true);
 	},
 
 	create: async (t)=>{
@@ -34,6 +41,10 @@ module.exports = {
 		await ppg.tbl.destroy('ppg_testing');
 		t.no(await ppg.tbl.exists('ppg_testing'));
 		await ppg.disconnect();
-	}
+	},
+
+	cleaned_up : (t)=>{
+		t.is(ppg.isConnected(), false);
+	},
 
 }

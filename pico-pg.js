@@ -143,6 +143,7 @@ const ppg = {
 		Client = null;
 		return res;
 	},
+	isConnected : ()=>!!Client,
 	query : async (sqlQuery)=>{
 		if(!Client){ throw 'Not connected to Postgres'; }
 		return Client.query(sqlQuery);
