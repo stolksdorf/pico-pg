@@ -4,7 +4,7 @@ let db;
 
 const ops = ppg.ops;
 
-let records = [];
+let records;
 
 const isUUID = (str)=>/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(str)
 
@@ -12,6 +12,7 @@ const random_uuid = '0d2c2216-aeda-4398-8ab3-48ae5493043d'
 
 module.exports = {
 	setup$ : async (t)=>{
+		records = [];
 		await ppg.connect(global.ppg_config);
 		db = await ppg.table('ppg_testing');
 	},

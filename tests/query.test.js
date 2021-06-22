@@ -3,11 +3,11 @@ const ppg = require('../pico-pg.js');
 const ops = ppg.ops;
 
 let db;
-
-let records = [];
+let records;
 
 module.exports = {
 	setup$ : async (t)=>{
+		records = [];
 		await ppg.connect(global.ppg_config);
 		db = await ppg.table('ppg_testing');
 	},

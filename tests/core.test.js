@@ -37,6 +37,25 @@ module.exports = {
 		t.no(await ppg.tbl.exists('ppg_destroy_test'))
 	},
 
+	destroy_clears_records : async (t)=>{
+		let tbl = await ppg.table('ppg_destroy_test');
+
+		await tbl.add({hello : true});
+		let count = (await tbl.all()).length;
+		t.is(count, 1);
+
+		await ppg.tbl.destroy('ppg_destroy_test');
+		t.no(await ppg.tbl.exists('ppg_destroy_test'));
+
+
+		tbl = await ppg.table('ppg_destroy_test');
+		await tbl.add({hello : false});
+		count = (await tbl.all()).length;
+		t.is(count, 1);
+
+		await ppg.tbl.destroy('ppg_destroy_test');
+	},
+
 	cleanup : async (t)=>{
 		await ppg.tbl.destroy('ppg_testing');
 		t.no(await ppg.tbl.exists('ppg_testing'));
