@@ -1,10 +1,11 @@
-const ppg = require('../pico-pg.js');
+let ppg = require('../pico-pg.js');
 
 let db;
 
 const isUUID = (str)=>/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(str)
 
 module.exports = {
+	mode_switch$ : ()=>{if(global.mem_mode){ppg = require('../memory.js')}},
 	setup : async (t)=>{
 		await ppg.connect(global.ppg_config);
 		db = await ppg.table('ppg_testing');

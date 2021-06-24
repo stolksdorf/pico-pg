@@ -1,14 +1,19 @@
-const ppg = require('../pico-pg.js');
+let ppg = require('../pico-pg.js');
+
 
 
 module.exports = {
+	mode_switch$ : ()=>{
+		if(global.mem_mode){
+			ppg = require('../memory.js')
+		}
+	},
 	not_connected : (t)=>{
 		t.is(ppg.isConnected(), false);
 	},
 	setup : async (t)=>{
-		await ppg.connect(global.ppg_config)
+		await ppg.connect(global.ppg_config);
 	},
-
 	connected : (t)=>{
 		t.is(ppg.isConnected(), true);
 	},
@@ -35,6 +40,25 @@ module.exports = {
 		t.ok(await ppg.tbl.exists('ppg_destroy_test'))
 		await ppg.tbl.destroy('ppg_destroy_test');
 		t.no(await ppg.tbl.exists('ppg_destroy_test'))
+	},
+
+	destroy_clears_records : async (t)=>{
+		let tbl = await ppg.table('ppg_destroy_test');
+
+		await tbl.add({hello : true});
+		let count = (await tbl.all()).length;
+		t.is(count, 1);
+
+		await ppg.tbl.destroy('ppg_destroy_test');
+		t.no(await ppg.tbl.exists('ppg_destroy_test'));
+
+
+		tbl = await ppg.table('ppg_destroy_test');
+		await tbl.add({hello : false});
+		count = (await tbl.all()).length;
+		t.is(count, 1);
+
+		await ppg.tbl.destroy('ppg_destroy_test');
 	},
 
 	cleanup : async (t)=>{

@@ -1,3 +1,7 @@
+require('../pico-pg.js');
+require('../memory.js');
+
+global.mem_mode = false;
 
 global.ppg_config ={
 	user: 'postgres',
@@ -42,10 +46,20 @@ global.dummyData = {
 };
 
 module.exports = {
-	core : require('./core.test.js'),
-	table : require('./table.test.js'),
-	query : require('./query.test.js'),
-	record : require('./record.test.js'),
-	builder : require('./builder.test.js'),
+	postgres : {
+		core : require('./core.test.js'),
+		table : require('./table.test.js'),
+		query : require('./query.test.js'),
+		record : require('./record.test.js'),
+		builder : require('./builder.test.js'),
+	},
+	mode_switch$ : (t)=>global.mem_mode = true,
+	in_memory: {
+		core : require('./core.test.js'),
+		table : require('./table.test.js'),
+		query : require('./query.test.js'),
+		record : require('./record.test.js'),
+		builder : require('./builder.test.js'),
+	}
 };
 
