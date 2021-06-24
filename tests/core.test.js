@@ -1,14 +1,19 @@
-const ppg = require('../pico-pg.js');
+let ppg = require('../pico-pg.js');
+
 
 
 module.exports = {
+	mode_switch$ : ()=>{
+		if(global.mem_mode){
+			ppg = require('../memory.js')
+		}
+	},
 	not_connected : (t)=>{
 		t.is(ppg.isConnected(), false);
 	},
 	setup : async (t)=>{
-		await ppg.connect(global.ppg_config)
+		await ppg.connect(global.ppg_config);
 	},
-
 	connected : (t)=>{
 		t.is(ppg.isConnected(), true);
 	},

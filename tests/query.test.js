@@ -1,11 +1,16 @@
-const ppg = require('../pico-pg.js');
-
-const ops = ppg.ops;
+let ppg = require('../pico-pg.js');
+let ops = ppg.ops;
 
 let db;
 let records;
 
 module.exports = {
+	mode_switch$ : ()=>{
+		if(global.mem_mode){
+			ppg = require('../memory.js');
+			ops = ppg.ops;
+		}
+	},
 	setup$ : async (t)=>{
 		records = [];
 		await ppg.connect(global.ppg_config);

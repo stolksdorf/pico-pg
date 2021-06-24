@@ -1,3 +1,6 @@
+require('../pico-pg.js');
+require('../memory.js');
+
 global.mem_mode = false;
 
 global.ppg_config ={

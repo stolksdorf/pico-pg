@@ -1,16 +1,21 @@
-const ppg = require('../pico-pg.js');
-
+let ppg = require('../pico-pg.js');
 let db;
-
-const ops = ppg.ops;
-
+let ops = ppg.ops;
 let records;
 
 const isUUID = (str)=>/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(str)
 
-const random_uuid = '0d2c2216-aeda-4398-8ab3-48ae5493043d'
+const random_uuid = '0d2c2216-aeda-4398-8ab3-48ae5493043d';
+
+const wait = async (n,val)=>new Promise((r)=>setTimeout(()=>r(val), n));
 
 module.exports = {
+	mode_switch$ : ()=>{
+		if(global.mem_mode){
+			ppg = require('../memory.js');
+			ops = ppg.ops;
+		}
+	},
 	setup$ : async (t)=>{
 		records = [];
 		await ppg.connect(global.ppg_config);
@@ -36,6 +41,7 @@ module.exports = {
 	update : {
 		updated_at_gets_updated : async (t)=>{
 			const last_updated_at = records[0].updated_at;
+			await wait(200);
 			const res = await db.update({
 				...records[0],
 				post_count : 7,
@@ -43,7 +49,6 @@ module.exports = {
 					has_newsletter : false
 				}
 			});
-
 			t.is(res.post_count, 7);
 			t.not(res.updated_at, last_updated_at);
 			t.is(res.meta.has_newsletter, false);

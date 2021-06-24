@@ -54,6 +54,13 @@ const active_users = await UserDB.find({
 Document-style databases are more flexible and easier to work with, especially when you aren't sure of the structure of your data yet. `pico-pg` lets you use Postgres while you are experimenting and building out your project. Once the schemas have settled you can do a single migration to a more performant schema structure without abusing the `jsonb` column type.
 
 
+### Memory-Mode
+There is a in-memory-only verison of `pico-pg` which has the identical interface as the main library.
+
+This is useful as a in-development fallback if the system you are working on does not have Postgres installed.
+
+You can access it via `require('pico-pg/memory')`
+
 
 
 ## API
@@ -69,6 +76,15 @@ Returns `true/false` if connected to a postgres database
 
 #### `ppg.query(sqlString)`
 Executes the given `sqlQuery` on the Postgres connection
+
+
+
+#### `ppg.loadRawData(init_database)` _memory mode only_
+Preload the in-memory database with whatever JSON object you like
+
+#### `ppg.getRawData()` -> `json_dump` _memory mode only_
+Returns a JSON object of all of the tables and data currently within the in memory database
+
 
 
 ### Table Commands
